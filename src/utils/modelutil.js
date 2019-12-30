@@ -7,7 +7,11 @@ class ModelUtils {
         let pathModels = Path.join(__dirname, '..', 'app', 'models')
         
         FileSystem.readdirSync(pathModels).forEach(file => {
-            require("../app/models/" + file).init(connection)
+            let model = require("../app/models/" + file)
+            model.init(connection)
+            
+            if(model.associate)
+                model.associate(connection.models)
         })
     }
 }
